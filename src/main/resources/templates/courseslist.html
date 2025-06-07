@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Course Management</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+	<div th:replace="nav.html"></div>
+    <div class="container">		
+		<div class="row mt-3">
+			<h2 class="ml-3">Course List</h2>
+		</div>
+		<div class="row mb-3">
+			<div class="col-lg-3">
+				<a th:href="@{/courses/create_course}" class="btn btn-sm m" style="background-color: #38b000; color: white;">Add Course</a>
+			</div>
+		</div>
+		
+		<table class="table table-striped table-bordered table-success table-hover">
+	        <thead>
+	            <tr>
+	                <th>ID</th>
+	                <th>Name</th>
+	                <th>Description</th>
+	                <th>Actions</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr th:each="course : ${courses}">
+	                <td th:text="${course.id}"></td>
+	                <td th:text="${course.name}"></td>
+	                <td th:text="${course.description}"></td>
+	                <td>
+	                    <a th:href="@{/courses/edit/{id}(id=${course.id})}" class="btn btn-sm" style="background-color: #0077b6; color: white;">Edit</a>
+	                    <a th:href="@{/courses/delete/{id}(id=${course.id})}" class="btn btn-sm" onclick="return confirm('Are you sure?')" style="background-color: #d62828; color: white;">Delete</a>	                    
+	                    <a th:href="@{/attendance/view/{courseId}(courseId=${course.id})}" class="btn btn-sm" style="background-color: #495057; color: white;">View Attendance</a>
+	                </td>
+	            </tr>
+	        </tbody>
+	    </table>
+	</div>
+</body>
+</html>

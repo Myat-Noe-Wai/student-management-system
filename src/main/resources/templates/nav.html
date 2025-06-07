@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-md shadow-sm" style="background-color: #e0f8ea; border-bottom: 2px solid #a0e6c5;">
+		  <!-- Brand -->
+		  <a class="navbar-brand font-weight-bold" style="color: #0f5132;" href="#">Student Management System</a>
+		
+		  <!-- Toggler/collapsibe Button -->
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>
+		
+		  <!-- Navbar links -->
+		  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+		    <ul class="navbar-nav">
+		      <li class="nav-item">
+		        <a class="nav-link" th:href="@{/students}" th:class="${currentPath == '/students'} ? 'nav-link font-weight-bold text-dark' : 'nav-link text-dark'">Student Management</a>
+		      </li>		     
+		      <li class="nav-item">
+		        <a class="nav-link" th:href="@{/courses}" th:class="${currentPath.startsWith('/courses')} ? 'nav-link font-weight-bold text-dark' : 'nav-link text-dark'">Course Management</a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" th:href="@{/teachers}" th:class="${currentPath.startsWith('/teachers')} ? 'nav-link font-weight-bold text-dark' : 'nav-link text-dark'">Teacher Management</a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" th:href="@{/users}" th:class="${currentPath.startsWith('/users')} ? 'nav-link font-weight-bold text-dark' : 'nav-link text-dark'">User Management</a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" th:href="@{/students/assign}" th:class="${currentPath.startsWith('/students/assign')} ? 'nav-link font-weight-bold text-dark' : 'nav-link text-dark'">Assign Student to Course</a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" th:href="@{/students/coursestudents}" th:class="${currentPath.startsWith('/students/coursestudents')} ? 'nav-link font-weight-bold text-dark' : 'nav-link text-dark'">View Courses with Students</a>
+		      </li>
+		      <li class="nav-item">
+			  	<span sec:authorize="isAuthenticated" style="color: white;"><a class="nav-link text-danger" th:href="@{/logout}">Logout</a></span>
+			  </li>		      
+		    </ul>
+		  </div>
+		</nav>

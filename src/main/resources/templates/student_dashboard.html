@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+	<div th:replace="student_nav.html"></div>
+    <div class="container">
+		<div class="row mt-3">
+			<h2 class="ml-3">Student Attendance Panel</h2>
+		</div>
+		<br>
+		
+		<table class="table table-striped table-bordered table-success table-hover">
+	        <thead>
+	            <tr>
+	                <th>ID</th>
+	                <th>Name</th>
+	                <th>Description</th>
+	                <th>Actions</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr th:each="course : ${courses}">
+	                <td th:text="${course.id}"></td>
+	                <td th:text="${course.name}"></td>
+	                <td th:text="${course.description}"></td>
+	                <td>	                    
+	                    <a th:href="@{/student/show_student_attendance_form/{courseId}(courseId=${course.id})}" class="btn btn-sm"
+	                    style="background-color: #38b000; color: white;">Mark Attendance</a>
+	                    <a th:href="@{/student/student_attendance_view/{courseId}(courseId=${course.id})}" class="btn btn-sm"
+	                    style="background-color: #495057; color: white;">View Attendance</a>
+	                </td>
+	            </tr>
+	        </tbody>
+	    </table>
+	</div>
+</body>
+</html>

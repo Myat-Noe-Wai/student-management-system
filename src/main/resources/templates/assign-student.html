@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Assign Students to Courses</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <div th:replace="nav.html"></div>
+	<br>
+	<br>
+	<div class="container">
+		<div class="row">
+			<h2 class="ml-3">Assign Students to Course</h2>
+		</div>
+		<br>
+		<div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+		    <span th:text="${success}"></span>
+		    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		        <span aria-hidden="true">&times;</span>
+		    </button>
+		</div>
+		<form action="/students/assign" method="post">
+			<div class="form-group">
+		        <label>Student:</label>
+		        <select name="studentId" class="form-select form-select-sm form-control">
+		            <option th:each="student : ${students}" th:value="${student.id}" th:text="${student.firstName + ' ' + student.lastName}"></option>
+		        </select>
+			</div>
+			<div class="form-group">
+		        <label>Course:</label>
+		        <select name="courseId" class="form-select form-select-sm form-control">
+		            <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
+		        </select>
+			</div>
+	        <button type="submit" class="btn" style="background-color: #38b000; color: white;">Assign</button>
+	    </form>
+	</div> 
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+</body>
+</html>
