@@ -9,9 +9,13 @@ import net.javaguides.sms.entity.Course;
 import net.javaguides.sms.entity.Student;
 import net.javaguides.sms.repository.CourseRepository;
 import net.javaguides.sms.repository.StudentRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class AssignStudentToCourseService {
+	private static final Logger logger = LoggerFactory.getLogger(AssignStudentToCourseService.class);
+	
     @Autowired
     private StudentRepository studentRepository;
 
@@ -19,6 +23,7 @@ public class AssignStudentToCourseService {
     private CourseRepository courseRepository;
 
     public boolean assignStudentToCourse(Long studentId, Long courseId) {
+    	logger.info("Attempting to assign Student ID {} to Course ID {}", studentId, courseId);
         try {
             Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
@@ -39,10 +44,12 @@ public class AssignStudentToCourseService {
     }
 
     public List<Student> getAllStudents() {
+    	logger.info("Fetching all students");
         return studentRepository.findAll();
     }
 
     public List<Course> getAllCourses() {
+    	logger.info("Fetching all courses");
         return courseRepository.findAll();
     }
 }
