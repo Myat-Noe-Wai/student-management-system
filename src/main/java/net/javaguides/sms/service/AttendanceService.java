@@ -1,5 +1,7 @@
 package net.javaguides.sms.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,8 @@ public class AttendanceService {
 
     @Autowired
     private CourseRepository courseRepository;
+    
+    private static final Logger logger = LoggerFactory.getLogger(AttendanceService.class);
 
     public void markAttendance(Long studentId, Long courseId, LocalDate date, boolean present) {
     	Optional<Student> studentOpt = studentRepository.findById(studentId);
