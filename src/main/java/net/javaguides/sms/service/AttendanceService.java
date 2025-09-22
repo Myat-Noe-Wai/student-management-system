@@ -33,6 +33,7 @@ public class AttendanceService {
     private static final Logger logger = LoggerFactory.getLogger(AttendanceService.class);
 
     public void markAttendance(Long studentId, Long courseId, LocalDate date, boolean present) {
+    	logger.info("Mark attendance StudentId {} to Course ID {}", studentId, courseId);
     	Optional<Student> studentOpt = studentRepository.findById(studentId);
         Optional<Course> courseOpt = courseRepository.findById(courseId);
     	

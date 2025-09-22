@@ -10,24 +10,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up JDK
+      # 2️⃣ Set up JDK
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
 
+      # 3️⃣ Build the Spring Boot JAR
       - name: Build JAR
         run: mvn clean package -DskipTests
 
+      # 4️⃣ Build Docker image
       - name: Build Docker image
         run: docker build -t myapp:latest .
 
+      # 5️⃣ Save Docker image as tar
       - name: Save Docker image as tar
-        run: docker save myapp:latest -o myapp.tar
+        run: docker save -o myapp.tar myapp:latest
 
+      # 6️⃣ Verify tar file exists and size
+      - name: Verify Docker tar file
+        run: |
+          if [ ! -f myapp.tar ]; then
+            echo "ERROR: myapp.tar does not exist!"
+            exit 1
+          fi
+          ls -lh myapp.tar
+
+      # 7️⃣ Copy Docker image tar to EC2
       - name: Copy Docker image to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -36,7 +51,9 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "myapp.tar"
           target: "/home/ubuntu/myapp/"
+          strip_components: 0
 
+      # 8️⃣ Deploy on EC2
       - name: Deploy on EC2
         uses: appleboy/ssh-action@v1.0.0
         with:
@@ -44,10 +61,27 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            set -e  # Exit immediately if any command fails
+            mkdir -p /home/ubuntu/myapp
             cd /home/ubuntu/myapp
+
+            if [ ! -f myapp.tar ]; then
+              echo "ERROR: myapp.tar not found on EC2!"
+              exit 1
+            fi
+
+            # Load Docker image
             docker load -i myapp.tar
+
             # Stop existing container if running
-            docker stop myapp || true
-            docker rm myapp || true
-            # Run new container
+            if [ $(docker ps -q -f name=myapp) ]; then
+              docker stop myapp
+              docker rm myapp
+            fi
+
+            # Run new container with proper port binding
             docker run -d --name myapp -p 8080:8080 myapp:latest
+
+            # Verify container is running
+            docker ps -a | grep myapp
+
