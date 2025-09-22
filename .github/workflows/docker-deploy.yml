@@ -42,6 +42,10 @@ jobs:
           fi
           ls -lh myapp.tar
 
+	# set permission
+	- name: Fix permissions for SCP
+	  run: chmod 644 myapp.tar
+
       # 7️⃣ Copy Docker image tar to EC2
       - name: Copy Docker image to EC2
         uses: appleboy/scp-action@v0.1.7
