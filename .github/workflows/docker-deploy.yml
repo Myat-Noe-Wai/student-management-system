@@ -67,9 +67,9 @@ jobs:
 
             docker load -i myapp.tar
 
-            if [ $(docker ps -q -f name=myapp) ]; then
-              docker stop myapp
-              docker rm myapp
+            if [ $(docker ps -aq -f name=myapp) ]; then
+              docker stop myapp || true
+              docker rm myapp || true
             fi
 
             docker run -d --name myapp -p 8080:8080 myapp:latest
