@@ -46,6 +46,7 @@ public class AttendanceService {
     }
 
     public List<Attendance> getAttendanceByCourse(Long courseId, LocalDate date) {
+    	logger.info("Get attendance by course");
         return attendanceRepository.findByCourseIdAndDate(courseId, date);
     }
 
